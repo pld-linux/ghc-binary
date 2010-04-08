@@ -1,5 +1,5 @@
 Summary:	Binary serialisation for Haskell values using lazy ByteStrings
-Name:		haskell-binary
+Name:		ghc-binary
 Version:	0.5.0.2
 Release:	0.1
 License:	BSD
@@ -7,7 +7,7 @@ Group:		Development/Languages
 Source0:	http://hackage.haskell.org/packages/archive/binary/0.5.0.2/binary-%{version}.tar.gz
 # Source0-md5:	6bf8f3d1441602c9ab09a75e3bd6e926
 URL:		http://hackage.haskell.org/package/hashed-storage/
-BuildRequires:	haskell
+BuildRequires:	ghc
 ExclusiveArch:	%{ix86} %{x8664}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
