@@ -30,7 +30,7 @@ performance scenarios.
 	--libdir=%{_libdir} \
 	--libexecdir=%{_libexecdir} \
 	--libsubdir=%{libsubdir} \
-	--docdir=%{_defaultdocdir}/%{name}-%{version}
+	--docdir=%{_docdir}/%{name}-%{version}
 
 ./Setup.lhs build
 ./Setup.lhs haddock --executables
@@ -41,7 +41,7 @@ rm -rf $RPM_BUILD_ROOT
 
 # work around automatic haddock docs installation
 rm -rf %{name}-%{version}-doc
-cp -a $RPM_BUILD_ROOT%{_defaultdocdir}/%{name}-%{version} %{name}-%{version}-doc
+cp -a $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version} %{name}-%{version}-doc
 
 ./Setup.lhs register \
 	--gen-pkg-config=$RPM_BUILD_ROOT/%{_libdir}/%{libsubdir}/%{pkgname}.conf
