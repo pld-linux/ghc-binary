@@ -8,11 +8,11 @@ Group:		Development/Languages
 Source0:	http://hackage.haskell.org/packages/archive/%{pkgname}/%{version}/%{pkgname}-%{version}.tar.gz
 # Source0-md5:	6bf8f3d1441602c9ab09a75e3bd6e926
 URL:		http://hackage.haskell.org/package/%{pkgname}/
-BuildRequires:	ghc >= 6.10
+BuildRequires:	ghc >= 6.12.3
 %requires_eq	ghc
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		libsubdir	ghc-%(/usr/bin/ghc --numeric-version)/%{pkgname}-%{version}
+%define		ghcdir		ghc-%(/usr/bin/ghc --numeric-version)
 
 %description
 Efficient, pure binary serialisation using lazy ByteStrings. Haskell
@@ -29,7 +29,6 @@ performance scenarios.
 	--prefix=%{_prefix} \
 	--libdir=%{_libdir} \
 	--libexecdir=%{_libexecdir} \
-	--libsubdir=%{libsubdir} \
 	--docdir=%{_docdir}/%{name}-%{version}
 
 ./Setup.lhs build
@@ -37,6 +36,8 @@ performance scenarios.
 
 %install
 rm -rf $RPM_BUILD_ROOT
+install -d $RPM_BUILD_ROOT%{_libdir}/%{ghcdir}/package.conf.d
+
 ./Setup.lhs copy --destdir=$RPM_BUILD_ROOT
 
 # work around automatic haddock docs installation
@@ -44,21 +45,20 @@ rm -rf %{name}-%{version}-doc
 cp -a $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version} %{name}-%{version}-doc
 
 ./Setup.lhs register \
-	--gen-pkg-config=$RPM_BUILD_ROOT/%{_libdir}/%{libsubdir}/%{pkgname}.conf
+	--gen-pkg-config=$RPM_BUILD_ROOT/%{_libdir}/%{ghcdir}/package.conf.d/%{pkgname}.conf
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %post
-/usr/bin/ghc-pkg update %{_libdir}/%{libsubdir}/%{pkgname}.conf
+/usr/bin/ghc-pkg recache
 
 %postun
-if [ "$1" = "0" ]; then
-	/usr/bin/ghc-pkg unregister %{pkgname}-%{version}
-fi
+/usr/bin/ghc-pkg recache
 
 %files
 %defattr(644,root,root,755)
 %doc README todo
 %doc %{name}-%{version}-doc/html
-%{_libdir}/%{libsubdir}
+%{_libdir}/%{ghcdir}/package.conf.d/%{pkgname}.conf
+%{_libdir}/%{ghcdir}/%{pkgname}-%{version}
