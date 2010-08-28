@@ -9,7 +9,7 @@ Source0:	http://hackage.haskell.org/packages/archive/%{pkgname}/%{version}/%{pkg
 # Source0-md5:	6bf8f3d1441602c9ab09a75e3bd6e926
 URL:		http://hackage.haskell.org/package/%{pkgname}/
 BuildRequires:	ghc >= 6.12.3
-%requires_eq	ghc
+%requires_releq	ghc
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		ghcdir		ghc-%(/usr/bin/ghc --numeric-version)
