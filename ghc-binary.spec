@@ -2,7 +2,7 @@
 Summary:	Binary serialisation for Haskell values using lazy ByteStrings
 Name:		ghc-%{pkgname}
 Version:	0.5.0.2
-Release:	4
+Release:	5
 License:	BSD
 Group:		Development/Languages
 Source0:	http://hackage.haskell.org/packages/archive/%{pkgname}/%{version}/%{pkgname}-%{version}.tar.gz
