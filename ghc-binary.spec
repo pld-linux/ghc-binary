@@ -1,18 +1,17 @@
-%define	pkgname	binary
+%define		pkgname	binary
 Summary:	Binary serialisation for Haskell values using lazy ByteStrings
 Name:		ghc-%{pkgname}
 Version:	0.5.0.2
-Release:	3
+Release:	4
 License:	BSD
 Group:		Development/Languages
 Source0:	http://hackage.haskell.org/packages/archive/%{pkgname}/%{version}/%{pkgname}-%{version}.tar.gz
 # Source0-md5:	6bf8f3d1441602c9ab09a75e3bd6e926
-URL:		http://hackage.haskell.org/package/%{pkgname}/
+URL:		http://hackage.haskell.org/package/binary/
 BuildRequires:	ghc >= 6.12.3
+BuildRequires:	rpmbuild(macros) >= 1.608
 %requires_releq	ghc
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-
-%define		ghcdir		ghc-%(/usr/bin/ghc --numeric-version)
 
 %description
 Efficient, pure binary serialisation using lazy ByteStrings. Haskell
@@ -51,10 +50,10 @@ cp -a $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version} %{name}-%{version}-doc
 rm -rf $RPM_BUILD_ROOT
 
 %post
-/usr/bin/ghc-pkg recache
+%ghc_pkg_recache
 
 %postun
-/usr/bin/ghc-pkg recache
+%ghc_pkg_recache
 
 %files
 %defattr(644,root,root,755)
