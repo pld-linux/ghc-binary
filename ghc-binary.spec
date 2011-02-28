@@ -2,7 +2,7 @@
 Summary:	Binary serialisation for Haskell values using lazy ByteStrings
 Name:		ghc-%{pkgname}
 Version:	0.5.0.2
-Release:	5
+Release:	6
 License:	BSD
 Group:		Development/Languages
 Source0:	http://hackage.haskell.org/packages/archive/%{pkgname}/%{version}/%{pkgname}-%{version}.tar.gz
@@ -10,8 +10,11 @@ Source0:	http://hackage.haskell.org/packages/archive/%{pkgname}/%{version}/%{pkg
 URL:		http://hackage.haskell.org/package/binary/
 BuildRequires:	ghc >= 6.12.3
 BuildRequires:	rpmbuild(macros) >= 1.608
-%requires_releq	ghc
+%requires_eq	ghc
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+# debuginfo is not useful for ghc
+%define		_enable_debug_packages	0
 
 %description
 Efficient, pure binary serialisation using lazy ByteStrings. Haskell
@@ -19,6 +22,17 @@ values may be encoded to and from binary formats, written to disk as
 binary, or sent over the network. Serialisation speeds of over 1 G/sec
 have been observed, so this library should be suitable for high
 performance scenarios.
+
+%package doc
+Summary:	HTML documentation for %{pkgname}
+Summary(pl.UTF-8):	Dokumentacja w formacie HTML dla %{pkgname}
+Group:		Documentation
+
+%description doc
+HTML documentation for %{pkgname}.
+
+%description doc -l pl.UTF-8
+Dokumentacja w formacie HTML dla %{pkgname}.
 
 %prep
 %setup -q -n %{pkgname}-%{version}
@@ -41,7 +55,7 @@ install -d $RPM_BUILD_ROOT%{_libdir}/%{ghcdir}/package.conf.d
 
 # work around automatic haddock docs installation
 rm -rf %{name}-%{version}-doc
-cp -a $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version} %{name}-%{version}-doc
+cp -a $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}/html %{name}-%{version}-doc
 
 ./Setup.lhs register \
 	--gen-pkg-config=$RPM_BUILD_ROOT/%{_libdir}/%{ghcdir}/package.conf.d/%{pkgname}.conf
@@ -58,6 +72,9 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc README todo
-%doc %{name}-%{version}-doc/html
 %{_libdir}/%{ghcdir}/package.conf.d/%{pkgname}.conf
 %{_libdir}/%{ghcdir}/%{pkgname}-%{version}
+
+%files doc
+%defattr(644,root,root,755)
+%doc %{name}-%{version}-doc/*
