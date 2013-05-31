@@ -2,7 +2,7 @@
 Summary:	Binary serialisation for Haskell values using lazy ByteStrings
 Name:		ghc-%{pkgname}
 Version:	0.7.1.0
-Release:	1
+Release:	2
 License:	BSD
 Group:		Development/Languages
 Source0:	http://hackage.haskell.org/packages/archive/%{pkgname}/%{version}/%{pkgname}-%{version}.tar.gz
@@ -56,7 +56,7 @@ install -d $RPM_BUILD_ROOT%{_libdir}/%{ghcdir}/package.conf.d
 # work around automatic haddock docs installation
 %{__rm} -rf %{name}-%{version}-doc
 cp -a $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}/html %{name}-%{version}-doc
-%{__rm} -r $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}/html %{name}-%{version}-doc
+%{__rm} -r $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}/html
 
 ./Setup.lhs register \
 	--gen-pkg-config=$RPM_BUILD_ROOT/%{_libdir}/%{ghcdir}/package.conf.d/%{pkgname}.conf
